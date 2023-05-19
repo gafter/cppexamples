@@ -9,20 +9,20 @@ struct Item {
 inline bool operator==(const Item& lhs, const Item& rhs) { return lhs.name == rhs.name; }
 inline bool operator!=(const Item& lhs, const Item& rhs) { return !(lhs == rhs); }
 
-// /*
-//  * Compute the best pack of a knapsack.
-//  *
-//  * You are given a vector of items `items` to choose from (one of each).
-//  * Each item has a name, a value, and a size.
-//  * You are also given a capacity for the knapsack.
-//  * Select some subset of the items that maximizes the sum of the values of that subset,
-//  * under the constraint that the sum of the sizes of that subset must be less than or
-//  * equal to the capacity of the knapsack.
-//  *
-//  * Return a pair of (1) a vector of the selected elements,
-//  * in the same order in which they appeared in `items`, and (2) a double giving the
-//  * total value of those items.
-//  */
+/*
+ * Compute the best pack of a knapsack.
+ *
+ * You are given a vector of items `items` to choose from (one of each).
+ * Each item has a name, a value, and a size.
+ * You are also given a capacity for the knapsack.
+ * Select some subset of the items that maximizes the sum of the values of that subset,
+ * under the constraint that the sum of the sizes of that subset must be less than or
+ * equal to the capacity of the knapsack.
+ *
+ * Return a pair of (1) a vector of the selected elements,
+ * in the same order in which they appeared in `items`, and (2) a double giving the
+ * total value of those items.
+ */
 std::pair<std::vector<Item>, double> best_pack(std::vector<Item> items, double capacity) {
     // Your code goes here.
     throw NULL;

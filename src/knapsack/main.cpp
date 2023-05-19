@@ -9,23 +9,58 @@ struct Item {
 inline bool operator==(const Item& lhs, const Item& rhs) { return lhs.name == rhs.name; }
 inline bool operator!=(const Item& lhs, const Item& rhs) { return !(lhs == rhs); }
 
-// /*
-//  * Compute the best pack of a knapsack.
-//  *
-//  * You are given a vector of items `items` to choose from (one of each).
-//  * Each item has a name, a value, and a size.
-//  * You are also given a capacity for the knapsack.
-//  * Select some subset of the items that maximizes the sum of the values of that subset,
-//  * under the constraint that the sum of the sizes of that subset must be less than or
-//  * equal to the capacity of the knapsack.
-//  *
-//  * Return a pair of (1) a vector of the selected elements,
-//  * in the same order in which they appeared in `items`, and (2) a double giving the
-//  * total value of those items.
-//  */
-std::pair<std::vector<Item>, double> best_pack(std::vector<Item> items, double capacity) {
-    // Your code goes here.
-    throw NULL;
+void best_pack_core(
+    const std::vector<Item>& items, int start,
+    std::vector<Item>& items_so_far, double remaining_capacity,
+    double value_so_far,
+    std::vector<Item>& best_items,
+    double& best_value) {
+    if (start >= items.size()) {
+        if (value_so_far > best_value) {
+            best_value = value_so_far;
+            best_items = items_so_far;
+        }
+        return;
+    }
+
+    // try without item at index start
+    best_pack_core(items, start+1, items_so_far, remaining_capacity, value_so_far, best_items, best_value);
+
+    // try with item at index start
+    if (items[start].size <= remaining_capacity) {
+        items_so_far.push_back(items[start]);
+        value_so_far += items[start].value;
+        remaining_capacity -= items[start].size;
+        best_pack_core(items, start+1, items_so_far, remaining_capacity, value_so_far, best_items, best_value);
+        items_so_far.pop_back();
+    }
+}
+
+/*
+ * Compute the best pack of a knapsack.
+ *
+ * You are given a vector of items `items` to choose from (one of each).
+ * Each item has a name, a value, and a size.
+ * You are also given a capacity for the knapsack.
+ * Select some subset of the items that maximizes the sum of the values of that subset,
+ * under the constraint that the sum of the sizes of that subset must be less than or
+ * equal to the capacity of the knapsack.
+ *
+ * Return a pair of (1) a vector of the selected elements,
+ * in the same order in which they appeared in `items`, and (2) a double giving the
+ * total value of those items.
+ */
+std::pair<std::vector<Item>, double> best_pack(std::vector<Item>& items, double capacity) {
+    std::vector<Item> items_so_far;
+    std::vector<Item> best_items;
+    double best_value = 0;
+    best_pack_core(
+        items, 0,
+        items_so_far, capacity,
+        0.0,
+        best_items,
+        best_value);
+    return std::pair<std::vector<Item>, double>(best_items, best_value);
 }
 
 // TESTS
@@ -189,5 +224,6 @@ int main() {
     test9();
     test10();
     test11();
+
     return 0;
 }
